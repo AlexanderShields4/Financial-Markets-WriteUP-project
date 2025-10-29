@@ -132,11 +132,3 @@ If you move the authoring job time, update the scheduler and the README accordin
 
 Open a PR with small, focused changes. Prefer defensive parsing for external data and add tests for any parsing logic you modify.
 
----
-
-If you'd like, I can also:
-- Clean up and consolidate duplicate imports across the dashboard files,
-- Add a small pre-flight script that validates API connectivity and presence of today's writeup, or
-- Add a simple scheduler example (systemd timer or cron) that runs the notebook at 4:45 PM ET and pushes the writeup to the deployment location.
-
-— end
