@@ -8,7 +8,7 @@ The goal: a single, focused afternoon briefing that highlights the most importan
 
 Live demo (deployed on Streamlit App Service):
 
-https://alexandershields4-financial-markets-newsletter-dashboard-as6qyc.streamlit.app/  (daily update ~4:45 PM ET)
+https://financial-markets-writeup.streamlit.app/ (daily update ~4:45 PM ET)
 
 ---
 
@@ -127,6 +127,52 @@ If you move the authoring job time, update the scheduler and the README accordin
 - If the Gemini/GenAI call fails, check your `GOOGLE_API_KEY` and network connectivity.
 
 ---
+
+## Automation with Cron
+
+The project can be automated using cron jobs on Linux/Unix systems. Here's how to set it up:
+
+1. First, ensure the shell script is executable:
+   ```bash
+   chmod +x /path/to/Finance/run_newsletter.sh
+   ```
+
+2. Open your crontab for editing:
+   ```bash
+   crontab -e
+   ```
+
+3. Add a cron job to run at 4:45 PM ET (adjust time zone as needed):
+   ```bash
+   # For Eastern Time (ET)
+   45 16 * * 1-5 /path/to/Finance/run_newsletter.sh >> /path/to/Finance/cron.log 2>&1
+   ```
+   
+   This cron schedule means:
+   - 45: Run at minute 45
+   - 16: Of hour 16 (4 PM)
+   - \*: Every day of the month
+   - \*: Every month
+   - 1-5: Monday through Friday only
+   
+   Note: Adjust the hour based on your timezone. For example:
+   - ET (UTC-4): 16:45
+   - CT (UTC-5): 15:45
+   - MT (UTC-6): 14:45
+   - PT (UTC-7): 13:45
+
+4. The script will:
+   - Activate the Python virtual environment
+   - Run the newsletter collector
+   - Log any errors to cron.log
+   - Deactivate the virtual environment
+
+Troubleshooting Cron Jobs:
+- Check cron.log for any errors
+- Ensure all paths in run_newsletter.sh are absolute paths
+- Verify environment variables are properly set in your .env file
+- Test the shell script manually before setting up cron
+- Make sure the cron user has necessary permissions
 
 ## Contributing
 
