@@ -46,7 +46,8 @@ except FileNotFoundError:
 # Load the daily writeup
 try:
     today = datetime.now().strftime("%Y-%m-%d")
-    with open(f"{today}dailywriteup.txt", 'r') as f:
+    filepath = f"Daily_write_ups/{today}dailywriteup.txt"
+    with open(filepath, 'r') as f:
         daily_writeup = f.read()
 except FileNotFoundError:
     daily_writeup = "Daily writeup not available for today."
