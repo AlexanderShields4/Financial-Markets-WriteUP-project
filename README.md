@@ -8,7 +8,7 @@ The goal: a single, focused afternoon briefing that highlights the most importan
 
 Live demo (deployed on Streamlit App Service):
 
-https://dailyaiwriteups.streamlit.app/  (daily update ~4:45 PM ET)
+https://alexandershields4-financial-markets-newsletter-dashboard-as6qyc.streamlit.app/  (daily update ~4:45 PM ET)
 
 ---
 
