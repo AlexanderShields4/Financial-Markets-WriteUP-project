@@ -16,8 +16,10 @@ from datetime import datetime, timedelta
 import os 
 from fredapi import Fred
 from google import genai
+from dotenv import load_dotenv
 #test
 def main():
+    load_dotenv()
     # Initialize Chrome options for headless operation
     options = Options()
     options.add_argument("--headless")  # Run in headless mode
@@ -64,27 +66,27 @@ def main():
         except Exception as e:
             print(f"Error fetching {series_id}: {e}")
     
-    # Get FRED releases
-    driver = webdriver.Chrome(options=options)
-    try:
-        driver.get("https://fred.stlouisfed.org/")
-        driver.maximize_window()
+    # # Get FRED releases
+    # driver = webdriver.Chrome(options=options)
+    # try:
+    #     driver.get("https://fred.stlouisfed.org/")
+    #     driver.maximize_window()
         
-        release_calendar = driver.find_element(By.XPATH, '//*[@id="subheader-navbar"]/li[1]')
-        release_calendar.click()
-        dropdown = driver.find_element(By.XPATH, '//*[@id="rc-views"]')
-        dropdown.click()
-        monthly_click = dropdown.find_element(By.XPATH, '//*[@id="rc-view-month"]')
-        monthly_click.click()
-        today_btn = driver.find_element(By.XPATH, '//*[@id="calendar"]/div[1]/div[1]/button')
-        today_btn.click()
-        weekly_click = dropdown.find_element(By.XPATH, '//*[@id="rc-view-week"]')
-        weekly_click.click()
-        releases = driver.find_element(By.XPATH, '//*[@id="release-dates-pager"]/div/table/tbody')
-        releases = releases.find_elements(By.TAG_NAME, 'tr')
-        Releases = [release.text for release in releases]
-    finally:
-        driver.quit()
+    #     release_calendar = driver.find_element(By.XPATH, '//*[@id="subheader-navbar"]/li[1]')
+    #     release_calendar.click()
+    #     dropdown = driver.find_element(By.XPATH, '//*[@id="rc-views"]')
+    #     dropdown.click()
+    #     monthly_click = dropdown.find_element(By.XPATH, '//*[@id="rc-view-month"]')
+    #     monthly_click.click()
+    #     today_btn = driver.find_element(By.XPATH, '//*[@id="calendar"]/div[1]/div[1]/button')
+    #     today_btn.click()
+    #     weekly_click = dropdown.find_element(By.XPATH, '//*[@id="rc-view-week"]')
+    #     weekly_click.click()
+    #     releases = driver.find_element(By.XPATH, '//*[@id="release-dates-pager"]/div/table/tbody')
+    #     releases = releases.find_elements(By.TAG_NAME, 'tr')
+    #     Releases = [release.text for release in releases]
+    # finally:
+    #     driver.quit()
     
     # Get stock data
     tickers = ["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "TSLA"]
@@ -190,7 +192,6 @@ def main():
         'tenyrtwoyr': tenyrtwoyr,
         'indice_data_str': indice_data_str,
         'ticker_data': ticker_data,
-        'weekly_releases': Releases,
         'newsstr': newsstr,
         'economic_indicators': latest_economic_data
     }
@@ -233,7 +234,7 @@ def main():
         f"— Last 5 days of 10-Year minus 2-Year Treasury yield spread: {tenyrtwoyr}\n"
         f"— Market indices and indicators: {indice_data_str}\n"
         f"— Magnificent 7 stock prices (last seven days, daily open and close): {ticker_data}\n"
-        f"— Economic releases from FRED: {Releases}\n"
+        f"— Economic releases from FRED: \n"
         f"— Market news headlines (past 24h): {newsstr}\n"
     )
     
