@@ -67,14 +67,8 @@ for index in indices_data:
     if index:  # Skip empty strings
         st.markdown(f"**{index}**")
 
-# Economic Indicators Section
-if 'economic_indicators' in market_data:
-    st.markdown('<p class="section-header">Economic Indicators</p>', unsafe_allow_html=True)
-    for indicator, value in market_data['economic_indicators'].items():
-        st.markdown(f"**{indicator}:** {value}")
-
 # News Headlines Section
-st.markdown('<p class="section-header">Latest Market News</p>', unsafe_allow_html=True)
+st.markdown('<p class="section-header">News Highlights</p>', unsafe_allow_html=True)
 news_data = market_data['newsstr'].split('\n')
 for news_item in news_data[2:7]:  # Skip header and show top 5 headlines
     if news_item.strip():
