@@ -60,16 +60,9 @@ st.markdown(f"*{datetime.now().strftime('%B %d, %Y')}*")
 st.markdown('<p class="section-header">Today\'s Market Analysis</p>', unsafe_allow_html=True)
 st.write(daily_writeup)
 
-# Major Indices Section
-st.markdown('<p class="section-header">Major Market Indices</p>', unsafe_allow_html=True)
-indices_data = market_data['indice_data_str'].split('. ')
-for index in indices_data:
-    if index:  # Skip empty strings
-        st.markdown(f"**{index}**")
-
 # News Headlines Section
 st.markdown('<p class="section-header">News Highlights</p>', unsafe_allow_html=True)
 news_data = market_data['newsstr'].split('\n')
-for news_item in news_data[2:7]:  # Skip header and show top 5 headlines
+for news_item in news_data[2:12]:  # Skip header and show top 10 headlines
     if news_item.strip():
         st.markdown(f"📰 {news_item}")
