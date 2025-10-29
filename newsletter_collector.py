@@ -201,7 +201,7 @@ def main():
     
     # Generate daily writeup
     message = (
-        f"You are an experienced economist and financial analyst specializing in market dynamics, bond markets, and Treasury yields.\n\n"
+        f"your output must all be the same font but the size and format can vary. You are an experienced economist and financial analyst specializing in market dynamics, bond markets, and Treasury yields.\n\n"
         f"You are the author of a daily PM financial newsletter that summarizes the key market developments of the day. "
         f"there should be no details left to fill in and the market brief should be titled PM Market Brief by Gemini"
         f"Your goal is to highlight the most important news, notable market movements, and any meaningful economic signals. "
