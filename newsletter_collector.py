@@ -203,7 +203,7 @@ def main():
     message = (
         f"You are an experienced economist and financial analyst specializing in market dynamics, bond markets, and Treasury yields. Format your response in plain text only, avoiding any special formatting or markdown.\n\n"
         f"You are the author of a daily PM financial newsletter that summarizes the key market developments of the day. "
-        f"The market brief should be titled 'PM Market Brief by Gemini' in plain text. "
+        f"The market brief should be titled 'PM Market Brief by Gemini' in plain text. You should not use any markdown or speciial formattiing \n\n "
         f"Your goal is to highlight the most important news, notable market movements, and any meaningful economic signals. "
         f"If the date corresponds to a weekend, do not include market tickers or Magnificent 7 stock data.\n\n"
         f"Your task is to analyze and interpret the following financial data:\n"
@@ -236,6 +236,8 @@ def main():
         f"— Magnificent 7 stock prices (last seven days, daily open and close): {ticker_data}\n"
         f"— Economic releases from FRED: \n"
         f"— Market news headlines (past 24h): {newsstr}\n"
+        f"create a nicely formatted table summarizing key numerical data (excluding news headlines).\n\n"
+
     )
     
     client = genai.Client(api_key=os.getenv("GOOGLE_KEY"))
