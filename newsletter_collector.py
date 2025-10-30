@@ -215,7 +215,7 @@ def main():
         f"• The Magnificent 7 stock prices (daily open and close, last seven days)\n"
         f"• Recent and scheduled economic releases\n"
         f"• Key market news headlines from the last 24 hours\n\n"
-        f"Please organize your analysis into these sections:\n"
+        f"Please organize your analysis into these sections: \n"
         f"1. Market Summary\n"
         f"   - Major Indices Performance\n"
         f"   - VIX and Market Sentiment\n"
