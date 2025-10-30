@@ -36,23 +36,74 @@ def main():
     today = datetime.now().date()
     start_date = today - timedelta(days=7)
     
-    # Get Treasury spread data
-    series_10yr = fred.get_series('DGS10', observation_start=start_date, observation_end=today)
-    series_2yr = fred.get_series('DGS2', observation_start=start_date, observation_end=today)
-    spread = series_10yr - series_2yr
-    tenyrtwoyr = []
-    for date, value in spread.items():
-        if pd.notnull(value):
-            tenyrtwoyr.append(f"{date.strftime('%Y-%m-%d')}: {value:.2f}")
+    # Get Treasury yield curve data
+    yield_curves = {
+        '3M': 'DGS3MO',
+        '6M': 'DGS6MO',
+        '1Y': 'DGS1',
+        '2Y': 'DGS2',
+        '3Y': 'DGS3',
+        '5Y': 'DGS5',
+        '7Y': 'DGS7',
+        '10Y': 'DGS10',
+        '20Y': 'DGS20',
+        '30Y': 'DGS30'
+    }
     
-    # Get economic indicators
+    # Get historical data for each tenor
+    yield_data = {}
+    spread_series = {}
+    for tenor, series_id in yield_curves.items():
+        try:
+            series = fred.get_series(series_id, observation_start=start_date, observation_end=today)
+            # Convert timestamps to string format
+            yield_data[tenor] = {date.strftime('%Y-%m-%d'): value 
+                               for date, value in series.to_dict().items()}
+            spread_series[tenor] = series
+        except Exception as e:
+            print(f"Error fetching {series_id}: {e}")
+    
+    # Calculate important spreads
+    spreads = {}
+    spread_calcs = {
+        '10Y-2Y': (spread_series['10Y'] - spread_series['2Y']),  # Classic recession indicator
+        '10Y-3M': (spread_series['10Y'] - spread_series['3M']),  # Fed's preferred spread
+        '30Y-5Y': (spread_series['30Y'] - spread_series['5Y']),  # Long-term growth expectations
+        '5Y-2Y': (spread_series['5Y'] - spread_series['2Y'])  # Medium-term expectations
+    }
+    
+    for name, series in spread_calcs.items():
+        spreads[name] = {date.strftime('%Y-%m-%d'): value 
+                        for date, value in series.to_dict().items()}
+    
+  
+    tenyrtwoyr = [] #the ten year two year spread list 
+    for date, value in spreads['10Y-2Y'].items():
+        if pd.notnull(value):
+            tenyrtwoyr.append(f"{date}: {value:.2f}")
+    tenthreem = [] # the ten three month spread list 
+    for date, value in spreads['10Y-3M'].items():
+        if pd.notnull(value): 
+            tenthreem.append(f"{date}: {value:.2f}")
+    thirtyfivey= [] #the thirty five year spread list
+    for date, value in spreads['30Y-5Y'].items():
+        if pd.notnull(value):
+            thirtyfivey.append(f"{date}: {value:.2f}")
+    fiveytwoyr = []  # the five two year spread list 
+    for date, value in spreads['5Y-2Y'].items():    
+        if pd.notnull(value):
+            fiveytwoyr.append(f"{date}: {value:.2f}")
+     # Get economic indicators
     economic_indicators = {
         'Initial Jobless Claims': 'ICSA',
         'CPI': 'CPIAUCSL',
         'PPI': 'PPIACO',
         'Retail Sales': 'RSAFS',
-        'Manufacturing PMI': 'MPMUGR',
-        'Services PMI': 'SPMUGR'
+        'Manufacturing PMI': 'NAPM',  # ISM Manufacturing PMI
+        'Consumer Confidence': 'UMCSENT',  # University of Michigan Consumer Sentiment
+        'Industrial Production': 'INDPRO',  # Industrial Production Index
+        'Housing Starts': 'HOUST',  # New Privately-Owned Housing Units Started
+        'GDP Growth Rate': 'A191RL1Q225SBEA'  # Real GDP Growth Rate
     }
     
     latest_economic_data = {}
@@ -193,7 +244,9 @@ def main():
         'indice_data_str': indice_data_str,
         'ticker_data': ticker_data,
         'newsstr': newsstr,
-        'economic_indicators': latest_economic_data
+        'economic_indicators': latest_economic_data,
+        'yield_data': yield_data,
+        'yield_spreads': spreads
     }
     
     with open('market_data.json', 'w') as f:
@@ -231,7 +284,7 @@ def main():
         f"5. Key Takeaways & Outlook\n\n"
         f"Also include a neatly formatted table summarizing key numerical data (excluding news headlines).\n\n"
         f"Data for analysis (Date: {today}):\n"
-        f"— Last 5 days of 10-Year minus 2-Year Treasury yield spread: {tenyrtwoyr}\n"
+        f"— Last 5 days of 10-Year minus 2-Year Treasury yield spread, the 30 yr five yr spread, the ten three month spread and the five year 2 yr spread: {tenyrtwoyr,thirtyfivey, tenthreem, fiveytwoyr}\n"
         f"— Market indices and indicators: {indice_data_str}\n"
         f"— Magnificent 7 stock prices (last seven days, daily open and close): {ticker_data}\n"
         f"— Economic releases from FRED: \n"

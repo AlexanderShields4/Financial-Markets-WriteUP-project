@@ -208,11 +208,142 @@ with st.container():
             unsafe_allow_html=True
         )
 
-    # Daily Analysis in a collapsible section
-    with st.expander("📝 Today's Market Analysis", expanded=True):
-        st.markdown('<div class="market-content">', unsafe_allow_html=True)
-        st.write(daily_writeup)
-        st.markdown('</div>', unsafe_allow_html=True)
+    # Daily Analysis and Yield Curves in a two-column layout
+    col1, col2 = st.columns([3, 2])
+    
+    with col1:
+        # Daily Analysis in a collapsible section
+        with st.expander("📝 Today's Market Analysis", expanded=True):
+            st.markdown('<div class="market-content">', unsafe_allow_html=True)
+            st.write(daily_writeup)
+            st.markdown('</div>', unsafe_allow_html=True)
+    
+    with col2:
+        # Yield Curve Graphs
+        st.markdown('<p class="section-header">📈 Yield Curves</p>', unsafe_allow_html=True)
+        
+        # Convert yield data to DataFrame for plotting
+        yield_data = market_data.get('yield_data', {})
+        spread_data = market_data.get('yield_spreads', {})
+        
+        # 1. Current Yield Curve
+        tenors = ['3M', '6M', '1Y', '2Y', '3Y', '5Y', '7Y', '10Y', '20Y', '30Y']
+        
+        # Get the most recent date's yields
+        dates = set()
+        for tenor_data in yield_data.values():
+            dates.update(tenor_data.keys())
+        latest_date = max(dates) if dates else None
+        
+        current_yields = {}
+        if latest_date:
+            for tenor in tenors:
+                if tenor in yield_data and latest_date in yield_data[tenor]:
+                    current_yields[tenor] = yield_data[tenor][latest_date]
+                    
+        yields = [current_yields.get(tenor, None) for tenor in tenors]
+        
+        fig_curve = go.Figure()
+        fig_curve.add_trace(go.Scatter(
+            x=tenors,
+            y=yields,
+            mode='lines+markers',
+            name=f'Yield Curve ({latest_date})',
+            line=dict(color=theme['primary'], width=2),
+            marker=dict(size=8)
+        ))
+        fig_curve.update_layout(
+            title={
+                'text': 'U.S. Treasury Yield Curve',
+                'y':0.95,
+                'x':0.5,
+                'xanchor': 'center',
+                'yanchor': 'top'
+            },
+            xaxis_title='Maturity',
+            yaxis_title='Yield (%)',
+            template='plotly_white',
+            height=300,
+            margin=dict(l=40, r=40, t=40, b=40),
+            showlegend=True,
+            legend=dict(
+                yanchor="top",
+                y=0.99,
+                xanchor="left",
+                x=0.01
+            ),
+            plot_bgcolor='rgba(0,0,0,0.02)' if selected_theme != "Dark Mode" else 'rgba(255,255,255,0.02)',
+            paper_bgcolor='rgba(0,0,0,0)'
+        )
+        fig_curve.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)')
+        fig_curve.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)')
+        st.plotly_chart(fig_curve, use_container_width=True, key='yield_curve')
+        
+        # 2. Key Spread Charts
+        spreads_to_plot = {
+            '10Y-2Y Spread': '10Y-2Y',
+            '10Y-3M Spread': '10Y-3M',
+            '5Y-2Y Spread': '5Y-2Y',
+            '30Y-5Y Spread': '30Y-5Y'
+        }
+        
+        for title, key in spreads_to_plot.items():
+            if key in spread_data:
+                dates = [datetime.strptime(d, '%Y-%m-%d') for d in spread_data[key].keys()]
+                values = list(spread_data[key].values())
+                
+                # Calculate min and max for annotation
+                latest_value = values[-1] if values else 0
+                
+                fig_spread = go.Figure()
+                fig_spread.add_trace(go.Scatter(
+                    x=dates,
+                    y=values,
+                    mode='lines',
+                    name=title,
+                    line=dict(color=theme['primary'], width=2)
+                ))
+                fig_spread.add_hline(
+                    y=0, 
+                    line_color=theme['accent'],
+                    line_dash='dash',
+                    annotation_text="Inversion Line",
+                    annotation_position="bottom right"
+                )
+                
+                # Add latest value annotation
+                fig_spread.add_annotation(
+                    x=dates[-1],
+                    y=latest_value,
+                    text=f"Latest: {latest_value:.2f}%",
+                    showarrow=True,
+                    arrowhead=1,
+                    ax=40,
+                    ay=-40 if latest_value > 0 else 40,
+                    font=dict(size=10, color=theme['text']),
+                    bgcolor='rgba(255, 255, 255, 0.8)'
+                )
+                
+                fig_spread.update_layout(
+                    title={
+                        'text': title,
+                        'y':0.95,
+                        'x':0.5,
+                        'xanchor': 'center',
+                        'yanchor': 'top'
+                    },
+                    xaxis_title='Date',
+                    yaxis_title='Spread (%)',
+                    template='plotly_white',
+                    height=250,
+                    margin=dict(l=40, r=40, t=40, b=40),
+                    showlegend=False,
+                    plot_bgcolor='rgba(0,0,0,0.02)' if selected_theme != "Dark Mode" else 'rgba(255,255,255,0.02)',
+                    paper_bgcolor='rgba(0,0,0,0)'
+                )
+                fig_spread.update_xaxes(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)')
+                fig_spread.update_yaxes(showgrid=True, gridwidth=1, gridcolor='rgba(128,128,128,0.2)')
+                st.plotly_chart(fig_spread, use_container_width=True, key=f'spread_{key}')
 
     # News Headlines Section with filtering
     st.markdown('<p class="section-header">📰 News Highlights</p>', unsafe_allow_html=True)
