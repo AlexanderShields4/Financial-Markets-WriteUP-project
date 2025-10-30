@@ -71,7 +71,6 @@ def main():
         '30Y-5Y': (spread_series['30Y'] - spread_series['5Y']),  # Long-term growth expectations
         '5Y-2Y': (spread_series['5Y'] - spread_series['2Y'])  # Medium-term expectations
     }
-    
     for name, series in spread_calcs.items():
         spreads[name] = {date.strftime('%Y-%m-%d'): value 
                         for date, value in series.to_dict().items()}

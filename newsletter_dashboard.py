@@ -242,7 +242,6 @@ with st.container():
                     current_yields[tenor] = yield_data[tenor][latest_date]
                     
         yields = [current_yields.get(tenor, None) for tenor in tenors]
-        
         fig_curve = go.Figure()
         fig_curve.add_trace(go.Scatter(
             x=tenors,
