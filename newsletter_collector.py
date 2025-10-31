@@ -17,6 +17,7 @@ import os
 from fredapi import Fred
 from google import genai
 from dotenv import load_dotenv
+import unicodedata 
 #test
 def main():
     load_dotenv()
@@ -297,6 +298,8 @@ def main():
         model="gemini-2.5-pro",
         contents=message
     )
+    response = str(response.text)
+    response = unicodedata.normalize("NFKD", response)
     
     folder = "Daily_write_ups"
     if not os.path.exists(folder):
@@ -306,7 +309,7 @@ def main():
     filepath = os.path.join(folder, filename)
     
     with open(filepath, "w") as f:
-        f.write(response.text)
+        f.write(response)
 
 if __name__ == "__main__":
     main()

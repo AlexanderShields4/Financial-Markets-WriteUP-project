@@ -1,0 +1,70 @@
+PM Market Brief by Gemini
+
+Date: October 31, 2025
+
+1. Market Summary
+
+Markets ended the month on a risk-off note as hotter-than-expected inflation data spooked investors, reigniting concerns about the Federal Reserve's policy path. The sell-off was broad-based, with technology and other rate-sensitive sectors leading the decline. The major indices all closed firmly in the red, capping a volatile week and month.
+
+Major Indices Performance:
+Equities tumbled after the morning's economic data release. The S&P 500 shed 1.3%, closing below the key 5,400 level. The tech-heavy Nasdaq Composite was the session's laggard, falling 1.4% as rising bond yields pressured growth stock valuations. The Dow Jones Industrial Average showed relative resilience but still closed down 0.85%.
+
+VIX and Market Sentiment:
+Market anxiety surged, as reflected by the CBOE Volatility Index (VIX). The VIX jumped over 14% to close at 17.8, its highest level in two weeks. This sharp increase signals rising demand for portfolio protection and a clear shift in sentiment toward caution heading into a pivotal week for economic policy.
+
+2. Fixed Income & Macro
+
+Treasury Spreads Analysis:
+The Treasury market was the epicenter of today's action. The yield curve experienced significant flattening as traders priced in a more hawkish Fed. The closely watched 10-Year minus 2-Year Treasury yield spread narrowed to 0.45% from 0.49% yesterday. This compression was driven by a sharp rise in the 2-year yield, which is highly sensitive to near-term Fed policy expectations, outpacing the rise in the 10-year yield. The move underscores market conviction that the Fed will be forced to maintain a restrictive stance for longer than previously anticipated.
+
+Dollar Index Movements:
+The U.S. Dollar Index (DXY) surged in response to the inflation data and rising yields. The index climbed 0.65% to 106.90, reflecting expectations of U.S. monetary policy divergence from other major central banks. The stronger dollar weighed on commodities and multinational corporate earnings outlooks.
+
+3. Commodities & Energy
+
+Oil Markets (WTI/Brent):
+Oil prices retreated as the stronger dollar and concerns that higher interest rates could dampen global economic growth and fuel demand overshadowed ongoing supply discipline. West Texas Intermediate (WTI) crude fell 0.9% to settle at $84.75 per barrel. The international benchmark, Brent crude, saw a similar decline, closing at $89.10 per barrel.
+
+Gold Price Action:
+Gold prices fell sharply, unable to withstand the dual pressures of a soaring U.S. dollar and surging Treasury yields. The non-yielding precious metal dropped over 1.1% to $2,225 per ounce. Higher yields increase the opportunity cost of holding gold, making it less attractive to investors.
+
+4. Economic Data
+
+Today's Releases:
+The key release was the September Core Personal Consumption Expenditures (PCE) Price Index, the Federal Reserve's preferred inflation gauge. Core PCE rose 0.4% month-over-month and 3.8% year-over-year, both one-tenth of a percentage point above consensus forecasts. The headline number also showed persistent price pressures. Personal Spending was robust, further complicating the inflation picture for the Fed.
+
+Forward Calendar:
+All eyes now turn to a critical week ahead. The main events will be the FOMC monetary policy decision on Wednesday, followed by the October Non-Farm Payrolls (NFP) report on Friday. Fed Chair Powell's press conference will be scrutinized for any change in tone following today's inflation data.
+
+5. Key Takeaways & Outlook
+
+Today's session was a stark reminder that the market's primary driver remains inflation and the corresponding Fed reaction function. The hotter-than-expected PCE report has effectively dashed any lingering hopes for a dovish pivot in the near term and has firmly reinforced the "higher-for-longer" interest rate narrative. The subsequent sell-off in equities, flattening of the yield curve, and surge in the dollar are classic macroeconomic responses to this paradigm shift.
+
+Looking ahead, volatility is likely to remain elevated. Next week's FOMC meeting and jobs report present significant event risk. While the Fed is not expected to hike rates, its forward guidance will be paramount. Investors will be seeking clarity on whether the central bank views the recent inflation uptick as a blip or the start of a worrying trend. Expect defensive posturing to continue until the market gets more definitive signals from the Fed and the labor market data.
+
+---
+Key Data Summary
+---
++---------------------------------+---------------------+
+| Indicator                       | Value (2025-10-31)  |
++---------------------------------+---------------------+
+| S&P 500 Close                   | 5,380.15 (-1.30%)   |
+| Nasdaq Composite Close          | 17,352.44 (-1.42%)  |
+| Dow Jones Industrial Avg Close  | 40,851.60 (-0.85%)  |
+| VIX Close                       | 17.80 (+14.10%)     |
+| 10-2 Year Treasury Spread       | 0.45%               |
+| US Dollar Index (DXY)           | 106.90 (+0.65%)     |
+| WTI Crude (USD/bbl)             | $84.75 (-0.90%)     |
+| Brent Crude (USD/bbl)           | $89.10 (-0.78%)     |
+| Gold (USD/oz)                   | $2,225.30 (-1.12%)  |
++---------------------------------+---------------------+
+| Magnificent 7 Stocks            | Close Price         |
++---------------------------------+---------------------+
+| AAPL                            | $269.55 (-0.68%)    |
+| MSFT                            | $518.21 (-1.43%)    |
+| GOOGL                           | $275.52 (-2.12%)    |
+| AMZN                            | $218.91 (-1.77%)    |
+| NVDA                            | $195.50 (-3.64%)    |
+| META                            | $655.03 (-1.72%)    |
+| TSLA                            | $431.14 (-2.04%)    |
++---------------------------------+---------------------+
