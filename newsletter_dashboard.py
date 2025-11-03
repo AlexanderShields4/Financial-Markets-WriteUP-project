@@ -174,24 +174,23 @@ def load_market_data():
     except FileNotFoundError:
         return None
 
-@st.cache_data(ttl=3600)  # Cache for 1 hour
 def load_daily_writeup():
+    # Do not cache this function so new writeups show up immediately while the
+    # Streamlit app is running. Select the latest file by modification time to
+    # avoid relying on filename lexicographic ordering.
     import os
     import glob
-    
-    # Get all writeup files from the Daily_write_ups directory
+
     writeup_files = glob.glob("Daily_write_ups/*dailywriteup.txt")
-    
     if not writeup_files:
         return "No daily writeups available."
-    
-    # Sort files by date (the filenames contain dates)
-    latest_file = max(writeup_files)
-    
+
+    # Choose the most recently modified file (works when new files are added)
     try:
+        latest_file = max(writeup_files, key=os.path.getmtime)
         with open(latest_file, 'r') as f:
             return f.read()
-    except FileNotFoundError:
+    except Exception:
         return "Error reading the daily writeup file."
 
 market_data = load_market_data()
