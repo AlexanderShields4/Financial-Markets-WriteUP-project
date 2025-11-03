@@ -93,6 +93,13 @@ def main():
     for date, value in spreads['5Y-2Y'].items():    
         if pd.notnull(value):
             fiveytwoyr.append(f"{date}: {value:.2f}")
+
+    # Determine latest available dates for spreads/yields so we can report them
+    try:
+        latest_spread_date = max(*(list(s.keys()) for s in spreads.values()))
+    except Exception:
+        # fallback: inspect one spread series
+        latest_spread_date = max(spreads.get('10Y-2Y', {}).keys()) if spreads.get('10Y-2Y') else str(today)
      # Get economic indicators
     economic_indicators = {
         'Initial Jobless Claims': 'ICSA',
@@ -143,6 +150,7 @@ def main():
     tickers = ["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "TSLA"]
     data = yf.download(tickers, start=start_date, end=today + timedelta(days=1), interval="1d", group_by='ticker')
     ticker_data = ""
+    latest_ticker_date = None
     for ticker in tickers:
         if ticker in data:
             df = data[ticker]
@@ -151,6 +159,9 @@ def main():
                     open_price = row['Open']
                     close_price = row['Close']
                     date_str = idx.strftime('%Y-%m-%d')
+                    # track latest ticker data date
+                    if latest_ticker_date is None or date_str > latest_ticker_date:
+                        latest_ticker_date = date_str
                     ticker_data += f"{ticker} {date_str}: Open: ${open_price:.2f} Close: ${close_price:.2f}. "
     
     # Get market indices
@@ -253,6 +264,14 @@ def main():
         json.dump(market_data, f)
     
     # Generate daily writeup
+    # Make explicit which dates the provided data covers so the model doesn't
+    # accidentally assume 'today' for data that is only available up to an
+    # earlier date (FRED and some series publish with a lag).
+    data_date_notes = (
+        f"Latest available spread data date: {latest_spread_date}.\n"
+        f"Latest available ticker data date: {latest_ticker_date or 'N/A'}.\n"
+    )
+
     message = (
         f"You are an experienced economist and financial analyst specializing in market dynamics, bond markets, and Treasury yields. Format your response in plain text only, avoiding any special formatting or markdown.\n\n"
         f"You are the author of a daily PM financial newsletter that summarizes the key market developments of the day. "
@@ -283,8 +302,9 @@ def main():
         f"   - Forward Calendar\n"
         f"5. Key Takeaways & Outlook\n\n"
         f"Also include a neatly formatted table summarizing key numerical data (excluding news headlines).\n\n"
-        f"Data for analysis (Date: {today}):\n"
-        f"— Last 5 days of 10-Year minus 2-Year Treasury yield spread, the 30 yr five yr spread, the ten three month spread and the five year 2 yr spread: {tenyrtwoyr,thirtyfivey, tenthreem, fiveytwoyr}\n"
+    f"Data for analysis (Date: {today}):\n"
+    f"Note on data currency:\n{data_date_notes}\n"
+    f"— Last 5 days of 10-Year minus 2-Year Treasury yield spread, the 30 yr five yr spread, the ten three month spread and the five year 2 yr spread: {tenyrtwoyr,thirtyfivey, tenthreem, fiveytwoyr}\n"
         f"— Market indices and indicators: {indice_data_str}\n"
         f"— Magnificent 7 stock prices (last seven days, daily open and close): {ticker_data}\n"
         f"— Economic releases from FRED: \n"
