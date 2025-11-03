@@ -176,13 +176,23 @@ def load_market_data():
 
 @st.cache_data(ttl=3600)  # Cache for 1 hour
 def load_daily_writeup():
+    import os
+    import glob
+    
+    # Get all writeup files from the Daily_write_ups directory
+    writeup_files = glob.glob("Daily_write_ups/*dailywriteup.txt")
+    
+    if not writeup_files:
+        return "No daily writeups available."
+    
+    # Sort files by date (the filenames contain dates)
+    latest_file = max(writeup_files)
+    
     try:
-        today = datetime.now().strftime("%Y-%m-%d")
-        filepath = f"Daily_write_ups/{today}dailywriteup.txt"
-        with open(filepath, 'r') as f:
+        with open(latest_file, 'r') as f:
             return f.read()
     except FileNotFoundError:
-        return None
+        return "Error reading the daily writeup file."
 
 market_data = load_market_data()
 if not market_data:
@@ -190,8 +200,6 @@ if not market_data:
     st.stop()
 
 daily_writeup = load_daily_writeup()
-if not daily_writeup:
-    daily_writeup = "Daily writeup not available for today."
 
 # Main content container
 with st.container():
