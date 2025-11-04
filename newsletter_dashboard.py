@@ -178,60 +178,39 @@ def load_market_data():
         return None
 
 def load_daily_writeup():
-    """Load the most recent daily writeup, with detailed environment and file system logging."""
+    """Load the most recent daily writeup with fallback mechanisms for different hosting environments."""
     import os
     import glob
-    import platform
     from datetime import datetime
-    import sys
+    import streamlit as st
     
-    # Debug information about environment
-    env_info = f"""
-    Environment Info:
-    - Platform: {platform.platform()}
-    - Python: {sys.version}
-    - Working Directory: {os.getcwd()}
-    - Script Location: {os.path.abspath(__file__)}
-    - Current Time: {datetime.now()}
-    """
-    print(env_info)
+    def is_streamlit_cloud():
+        """Check if we're running on Streamlit Cloud."""
+        return os.getenv('IS_STREAMLIT_CLOUD') == 'true'
     
-    # Use absolute path to avoid working directory issues
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    writeup_dir = os.path.join(base_dir, "Daily_write_ups")
-    
-    # Debug directory contents
-    print(f"\nChecking directory: {writeup_dir}")
-    if os.path.exists(writeup_dir):
-        print("Directory contents:")
-        for f in os.listdir(writeup_dir):
-            fpath = os.path.join(writeup_dir, f)
-            mtime = datetime.fromtimestamp(os.path.getmtime(fpath))
-            print(f"- {f} (modified: {mtime})")
-    else:
-        print(f"WARNING: Directory does not exist: {writeup_dir}")
-        
-    writeup_files = glob.glob(os.path.join(writeup_dir, "*dailywriteup.txt"))
-    
-    if not writeup_files:
-        print("No writeup files found!")
-        return "No daily writeups available."
-
     try:
-        # Sort by mtime AND filename as a backup
-        latest_file = max(writeup_files, key=lambda f: (os.path.getmtime(f), f))
-        mtime = datetime.fromtimestamp(os.path.getmtime(latest_file))
-        print(f"\nSelected writeup: {latest_file}")
-        print(f"Last modified: {mtime}")
+        # First try the Git-tracked Daily_write_ups directory
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        writeup_dir = os.path.join(base_dir, "Daily_write_ups")
+        writeup_files = glob.glob(os.path.join(writeup_dir, "*dailywriteup.txt"))
         
-        with open(latest_file, 'r') as f:
-            content = f.read()
-            print(f"Successfully read {len(content)} characters")
+        if writeup_files:
+            # Sort by filename to get latest (YYYY-MM-DD format ensures chronological order)
+            latest_file = max(writeup_files)
+            with open(latest_file, 'r') as f:
+                content = f.read()
+                
+            # Store filename for display
+            latest_date = os.path.basename(latest_file).replace('dailywriteup.txt', '')
+            st.sidebar.info(f"Showing writeup from: {latest_date}")
+            
             return content
+            
     except Exception as e:
-        error_msg = f"Error reading the daily writeup file: {str(e)}"
-        print(f"ERROR: {error_msg}")
-        return error_msg
+        st.sidebar.error(f"Error reading writeup: {str(e)}")
+        return "Error loading the daily writeup. Please check logs for details."
+    
+    return "No daily writeups available."
 
 market_data = load_market_data()
 if not market_data:

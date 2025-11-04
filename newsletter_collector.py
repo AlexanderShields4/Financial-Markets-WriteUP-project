@@ -330,6 +330,16 @@ def main():
     
     with open(filepath, "w") as f:
         f.write(response)
+    
+    # Auto-commit the new writeup if we're not on Streamlit Cloud
+    if os.getenv('IS_STREAMLIT_CLOUD') != 'true':
+        try:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            commit_script = os.path.join(script_dir, 'commit_writeups.sh')
+            if os.path.exists(commit_script):
+                os.system(f"bash {commit_script}")
+        except Exception as e:
+            print(f"Warning: Could not auto-commit writeup: {e}")
 
 if __name__ == "__main__":
     main()
