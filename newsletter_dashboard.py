@@ -166,10 +166,13 @@ st.markdown(f"""
     """, unsafe_allow_html=True)
 
 # Load market data
-@st.cache_data(ttl=3600)  # Cache for 1 hour
 def load_market_data():
+    # Remove caching to ensure we always get fresh data
+    import os
     try:
-        with open('market_data.json', 'r') as f:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        market_data_path = os.path.join(base_dir, 'market_data.json')
+        with open(market_data_path, 'r') as f:
             return json.load(f)
     except FileNotFoundError:
         return None
@@ -180,18 +183,24 @@ def load_daily_writeup():
     # avoid relying on filename lexicographic ordering.
     import os
     import glob
-
-    writeup_files = glob.glob("Daily_write_ups/*dailywriteup.txt")
+    
+    # Use absolute path to avoid working directory issues
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    writeup_dir = os.path.join(base_dir, "Daily_write_ups")
+    writeup_files = glob.glob(os.path.join(writeup_dir, "*dailywriteup.txt"))
+    
     if not writeup_files:
         return "No daily writeups available."
 
     # Choose the most recently modified file (works when new files are added)
     try:
         latest_file = max(writeup_files, key=os.path.getmtime)
+        # Print for debugging
+        print(f"Loading writeup from: {latest_file} (mtime: {os.path.getmtime(latest_file)})")
         with open(latest_file, 'r') as f:
             return f.read()
-    except Exception:
-        return "Error reading the daily writeup file."
+    except Exception as e:
+        return f"Error reading the daily writeup file: {str(e)}"
 
 market_data = load_market_data()
 if not market_data:
