@@ -23,7 +23,7 @@ def main():
     load_dotenv()
     # Initialize Chrome options for headless operation
     options = Options()
-    options.add_argument("--headless")  # Run in headless mode
+    options.add_argument("--headless") 
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     
