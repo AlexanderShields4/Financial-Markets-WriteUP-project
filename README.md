@@ -1,5 +1,3 @@
-"""Update README: full project summary, run/deploy notes, config and troubleshooting"""
-
 # Financial-Markets-WriteUP-project
 
 This repo is my automated, end-of-day market newsletter and dashboard. It collects market data, economic releases, earnings calendar items and news, synthesizes the inputs with a Gemini LLM prompt, and produces a concise PM market brief every trading day (typically generated around 4:45 PM ET).
