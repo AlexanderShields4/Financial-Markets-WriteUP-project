@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
 
-import pandas as pd 
-import numpy as np 
+import pandas as pd
 import json 
-import requests 
-from io import StringIO 
-from bs4 import BeautifulSoup 
-from selenium import webdriver
+import requests
 from selenium.webdriver.chrome.service import Service
 import chromedriver_autoinstaller
 from selenium.webdriver.chrome.options import Options
@@ -72,6 +68,8 @@ def main():
         '30Y-5Y': (spread_series['30Y'] - spread_series['5Y']),  # Long-term growth expectations
         '5Y-2Y': (spread_series['5Y'] - spread_series['2Y'])  # Medium-term expectations
     }
+    print(spread_calcs)
+
     for name, series in spread_calcs.items():
         spreads[name] = {date.strftime('%Y-%m-%d'): value 
                         for date, value in series.to_dict().items()}
@@ -317,7 +315,7 @@ def main():
     response = client.models.generate_content(
         model="gemini-2.5-pro",
         contents=message
-    )
+    ) 
     response = str(response.text)
     response = unicodedata.normalize("NFKD", response)
     
@@ -342,4 +340,4 @@ def main():
             print(f"Warning: Could not auto-commit writeup: {e}")
 
 if __name__ == "__main__":
-    main()
+     main()
