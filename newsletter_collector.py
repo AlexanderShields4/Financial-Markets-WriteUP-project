@@ -122,28 +122,7 @@ def main():
         except Exception as e:
             print(f"Error fetching {series_id}: {e}")
     
-    # # Get FRED releases
-    # driver = webdriver.Chrome(options=options)
-    # try:
-    #     driver.get("https://fred.stlouisfed.org/")
-    #     driver.maximize_window()
-        
-    #     release_calendar = driver.find_element(By.XPATH, '//*[@id="subheader-navbar"]/li[1]')
-    #     release_calendar.click()
-    #     dropdown = driver.find_element(By.XPATH, '//*[@id="rc-views"]')
-    #     dropdown.click()
-    #     monthly_click = dropdown.find_element(By.XPATH, '//*[@id="rc-view-month"]')
-    #     monthly_click.click()
-    #     today_btn = driver.find_element(By.XPATH, '//*[@id="calendar"]/div[1]/div[1]/button')
-    #     today_btn.click()
-    #     weekly_click = dropdown.find_element(By.XPATH, '//*[@id="rc-view-week"]')
-    #     weekly_click.click()
-    #     releases = driver.find_element(By.XPATH, '//*[@id="release-dates-pager"]/div/table/tbody')
-    #     releases = releases.find_elements(By.TAG_NAME, 'tr')
-    #     Releases = [release.text for release in releases]
-    # finally:
-    #     driver.quit()
-    
+
     # Get stock data
     tickers = ["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "TSLA"]
     data = yf.download(tickers, start=start_date, end=today + timedelta(days=1), interval="1d", group_by='ticker')
