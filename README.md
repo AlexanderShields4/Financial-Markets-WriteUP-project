@@ -6,7 +6,7 @@ The goal: a single, focused afternoon briefing that highlights the most importan
 
 Live demo (deployed on Streamlit App Service):
 
-https://financial-markets-writeup.streamlit.app/ (daily update ~4:45 PM ET)
+[https://financial-markets-writeup.streamlit.app/](https://alexandershields4-automated-financi-newsletter-dashboard-bkczyz.streamlit.app/) (daily update ~4:45 PM ET)
 
 ---
 
