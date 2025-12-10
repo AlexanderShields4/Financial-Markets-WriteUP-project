@@ -1,5 +1,3 @@
-"""Update README: full project summary, run/deploy notes, config and troubleshooting"""
-
 # Financial-Markets-WriteUP-project
 
 This repo is my automated, end-of-day market newsletter and dashboard. It collects market data, economic releases, earnings calendar items and news, synthesizes the inputs with a Gemini LLM prompt, and produces a concise PM market brief every trading day (typically generated around 4:45 PM ET).
@@ -7,8 +5,7 @@ This repo is my automated, end-of-day market newsletter and dashboard. It collec
 The goal: a single, focused afternoon briefing that highlights the most important moves in equities, fixed income, commodities, FX, and macro data — and explains what they mean.
 
 Live demo (deployed on Streamlit App Service):
-
-https://financial-markets-writeup.streamlit.app/ (daily update ~4:45 PM ET)
+https://alexandershields4-automated-financi-newsletter-dashboard-bkczyz.streamlit.app/ (daily update ~4:45 PM ET)
 
 ---
 
